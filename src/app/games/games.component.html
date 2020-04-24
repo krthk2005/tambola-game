@@ -1,0 +1,6 @@
+<section id="accordion" class="games" *ngIf="games.length">
+    <div app-game class="game" *ngFor="let game of (games | sortByTime: 'updatedTime')" [game]="game"></div>
+</section>
+<div *ngIf="!games.length" class="text-center">
+    Not played yet! Click on <b>New Game</b> to Play.
+</div>

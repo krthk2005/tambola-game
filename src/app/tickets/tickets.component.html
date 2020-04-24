@@ -1,0 +1,57 @@
+<div class="tickets-display">
+  <div class="new-ticket">
+    <div class="form">
+      <div class="name-text">Please enter your user name</div>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1">@</span>
+        </div>
+        <input [(ngModel)]="userName" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+      </div>
+      <div>
+        <button (click)="generateTicket();"  type="button" class="btn btn-primary">{{genTicket.length ? 'Change Selection':'Buy Ticket'}}</button>
+        <button (click)="freezeTicket();" *ngIf="genTicket.length"  type="button" class="btn btn-success">Confirm Booking</button>
+      </div>
+    </div>
+    <div class="content" *ngIf="genTicket.length">
+      <div>
+        <div class="title">Name :</div>
+        <div>{{ticket.name | titlecase}}</div>
+        <div class="title">Date :</div>
+        <div>{{ticket.date | date}}</div>
+        <div class="title">Game No. :</div>
+        <div>{{ticket.id}}</div>
+      </div>
+      <table class="table table-bordered">
+        <tbody>
+          <tr *ngFor="let numbers of genTicket[0][0]">
+            <td *ngFor="let number of numbers">{{number > 0 ? number : ' '}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="content empty-content" *ngIf="!genTicket.length">
+      <div *ngIf="!noUserName" class="alert alert-primary" role="alert">Create a Thambola ticket</div>
+      <div *ngIf="noUserName" class="alert alert-danger" role="alert">Username is required</div>
+      <div *ngIf="ticketService.tickets.length">
+        <h5  class="alert alert-info" role="alert">Number of players <span class="badge badge-secondary">{{ticketService.tickets.length}}</span></h5>
+      </div>
+    </div>
+  </div>
+  <div class="saved-tickets" *ngIf="ticketService.tickets.length">
+    <div *ngFor="let ticket of ticketService.tickets">
+      <div class="header">
+        <div>{{ticket.name | titlecase}}</div>
+        <div class="date">{{ticket.date | date:'MMM d, y, h:mm:ss a'}}</div>
+      </div>
+      <table class="table table-bordered">
+        <tbody>
+          <tr *ngFor="let numbers of ticket.ticket">
+            <td *ngFor="let number of numbers">{{number > 0 ? number : ''}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+</div>

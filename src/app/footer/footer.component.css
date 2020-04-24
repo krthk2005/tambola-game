@@ -1,0 +1,12 @@
+.cright {
+    font-weight: 500;
+    position:absolute;
+	left:100%;
+    animation: scroll 30s linear 0s infinite;
+    width: 500px;
+}
+
+@keyframes scroll {
+    99.9% { left: -100%; }
+    100% { left:0; }
+}

@@ -1,0 +1,10 @@
+.ncompleted {
+    background-color: gray;
+}
+.ncurrent {
+    background-color: green;
+    color: white;
+}
+.table-bordered td{
+    text-align: center;
+}

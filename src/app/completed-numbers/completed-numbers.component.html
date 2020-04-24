@@ -1,0 +1,7 @@
+<table class="table table-bordered">
+  <tr *ngFor="let row of numbers">
+    <td *ngFor="let number of row" [class.ncompleted]="isCompleted(number)" [class.ncurrent]="number==game.lastNumber">
+      {{number}}
+    </td>
+  </tr>
+</table>

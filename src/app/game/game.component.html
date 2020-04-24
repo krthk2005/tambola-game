@@ -1,0 +1,49 @@
+<div class="card">
+  <div class="card-header" id="heading{{game.id}}" data-toggle="collapse" attr.data-target="#collapse{{game.id}}" aria-expanded="true" attr.aria-controls="collapse{{game.id}}">
+    <span>{{game.id}}</span>
+    <button class="btn btn btn-primary float-right" *ngIf="!game.completed && !isPlay" (click)="startGame($event)">Resume</button>
+    <button class="btn btn btn-primary float-right" *ngIf="!game.completed && isPlay" (click)="onCompleteGame()">Completed</button>
+  </div>
+
+  <div id="collapse{{game.id}}" class="collapse" [class.show]="isPlay" attr.aria-labelledby="heading{{game.id}}" data-parent="#accordion">
+    <div class="card-body">
+      <section class="row game">
+          <div app-completed-numbers [game]="game" class="col-md-6 col-lg-6"></div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="auto-start-number col-md-12 col-sm-2 col-xs-2">
+              <div class="auto-start">
+                <span>Enter sec for auto generation</span>
+                <input type="number" class="sec-number"  [(ngModel)]="timeIntervalNumber"/>
+                <button class="btn btn btn-primary" (click)="startTimer()">{{!isTimerStarted ? 'Start':'Stop'}}</button> 
+              </div>
+              <button class="btn btn btn-primary" (click)="onUpdateNumber()">Next Number</button> 
+            </div>
+            <div class="progress" *ngIf="isTimerStarted">
+              <div class="bar" [ngStyle]="{'width': progressNumber+'%'}"></div>
+              <!-- <div class="progress-bar" role="progressbar" height="10px" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"  [ngStyle]="{'width': progressNumber+'%'}" ></div> -->
+            </div>
+
+            <div app-random-number [lastNumber]="game.lastNumber" class="number-card col-md-12 col-sm-2 col-xs-2"></div>
+            <div class="col-md-12 col-sm-8 col-xs-8">
+              <div class="card resutls">
+                <div class="card-body">
+                  <h5 class="card-title">Winners:</h5>
+                  <div class="card-group"><span>First Five:</span> <input class="name" type="text" /> </div>
+                  <div class="card-group"><span>1st Row: </span> <input class="name" type="text" /> </div>
+                  <div class="card-group"><span>2nd Row:</span>  <input class="name" type="text" />  </div>
+                  <div class="card-group"><span>3rd Row: </span> <input class="name" type="text" />  </div>
+                  <div class="card-group"><span>Full House:</span> <input class="name" type="text" /> </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card col text-center" *ngIf="isPlay">
+            <div class="card-body">
+              <h5 class="card-title">Last 5 numbers:</h5>
+              {{game.completedNumbers.slice(-5).reverse().join(', ')}}
+            </div>
+          </div>
+        </section>
+    </div>
+  </div>
+</div>

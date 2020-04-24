@@ -1,0 +1,49 @@
+.new-ticket{
+    display: flex;
+    margin: 20px;
+    min-height: 165px;;
+}
+.form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    flex-direction: column;
+}
+.form .name-text{
+    align-self: flex-start;
+}
+.new-ticket .empty-content{
+    font-weight: bold;
+    font-size: 2rem;
+}
+.content{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-grow: 1;    
+    flex-basis: 50%;
+}
+.empty-content{
+    flex-direction: column;
+}
+.content .table{
+    width: 400px;
+}
+.content .title{
+    font-weight: bold;
+}
+.saved-tickets{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    overflow-y: auto;
+}
+.saved-tickets .header{
+    display: flex;
+    justify-content: space-between;
+}
+.saved-tickets .header .date{
+    font-size: 0.6rem;
+    align-self: flex-end;
+}

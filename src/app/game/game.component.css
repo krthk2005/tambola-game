@@ -1,0 +1,29 @@
+.resutls {
+    margin-top: 38px;
+}
+.card-group{
+    display: flex;
+    justify-content: space-between;
+}
+.card-group .name{
+    width: 80%;
+}
+.number-card .card-body{
+    padding: 0px;
+}
+.auto-start-number{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.progress{
+    margin: 15px;    
+    height: 10px;
+}
+.progress .bar{
+    border: 2px solid brown;
+    background: brown;
+}
+.sec-number{
+    width: 50px;
+}

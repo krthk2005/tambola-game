@@ -1,0 +1,28 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    position: relative;
+}
+
+.root {
+    margin: 10px 0 50px 0;
+}
+
+.vline {
+    width: 1px;
+    height: 100%;
+}
+
+.scenter {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.scenter * {
+    display: inline-block;
+}
