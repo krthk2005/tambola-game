@@ -34,7 +34,11 @@
     "zone.js": "^0.8.19",
     "ts-node": "~4.1.0",
     "tslint": "~5.9.1",
-    "typescript": "~2.5.3"
+    "typescript": "~2.5.3",
+    "@angular/language-service": "^5.2.0",
+    "@types/jasmine": "~2.8.3",
+    "@types/jasminewd2": "~2.0.2",
+    "@types/node": "~6.0.60",
   },
   "devDependencies": {
     "@angular/cli": "~1.7.0",
