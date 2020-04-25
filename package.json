@@ -9,10 +9,17 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "postinstall": "ng build --prod",
+    "heroku-postbuild": "cd tambola-game && npm install"
   },
-  "private": true,
+  "engines": {
+    "node": "12.13.0",
+    "npm": "6.13.2"
+  },
   "dependencies": {
+    "@angular/cli": "~1.7.0",
+    "@angular/compiler-cli": "^5.2.0",
     "@angular/animations": "^5.2.0",
     "@angular/common": "^5.2.0",
     "@angular/compiler": "^5.2.0",
