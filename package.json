@@ -1,5 +1,5 @@
 {
-  "name": "tambola-housie",
+  "name": "tambola-game",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
@@ -10,8 +10,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "deploy": "gh-pages -d dist",
-    "postinstall": "ng build --prod",
-    "heroku-postbuild": "cd tambola-game && npm install"
+    "postinstall": "ng build --prod"
   },
   "engines": {
     "node": "12.13.0",
