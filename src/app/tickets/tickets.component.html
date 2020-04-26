@@ -30,6 +30,7 @@
         </tbody>
       </table>
     </div>
+    <div class="p-3 mb-2 bg-danger text-white duplicate-user" *ngIf="isDuplicateUser">Ticket already created for " <u>{{userName}}</u> " </div>
     <div class="content empty-content" *ngIf="!genTicket.length">
       <div *ngIf="!noUserName" class="alert alert-primary" role="alert">Create a Thambola ticket</div>
       <div *ngIf="noUserName" class="alert alert-danger" role="alert">Username is required</div>

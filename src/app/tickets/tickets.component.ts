@@ -14,18 +14,29 @@ export class TicketsComponent implements OnInit {
   userName:string;
   ticket: ITicket;
   noUserName: boolean;
+  isDuplicateUser: boolean;
 
   constructor(public ticketService :TicketService) { }
 
   ngOnInit() {
   }
   generateTicket(){
+    this.isDuplicateUser = false;
     if(this.userName){
-      this.noUserName = false;
-      this.genTicket = [];
-      this.genTicket.push(tambola.getTickets(1));
-      this.ticket = {} as  ITicket;
-      this.ticket = this.ticketService.createTicket(1,this.userName, new Date(), this.genTicket[0]);
+      this.ticketService.tickets.forEach(ticket => {
+        if(ticket.name.toLocaleLowerCase() == this.userName.toLocaleLowerCase()){
+          this.isDuplicateUser = true;
+        }
+      });
+      if(this.isDuplicateUser){
+        this.noUserName = true;
+      }else{
+        this.noUserName = false;
+        this.genTicket = [];
+        this.genTicket.push(tambola.getTickets(1));
+        this.ticket = {} as  ITicket;
+        this.ticket = this.ticketService.createTicket(1,this.userName, new Date(), this.genTicket[0]);
+      }
     }else{
       this.noUserName = true;
     }
@@ -37,6 +48,7 @@ export class TicketsComponent implements OnInit {
       this.ticketService.ticket  = {} as  ITicket;
       this.userName = "";
       this.genTicket = [];
+      this.isDuplicateUser = false;
     }
   }
 }
