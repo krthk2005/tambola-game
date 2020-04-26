@@ -6,7 +6,7 @@
         <div class="input-group-prepend">
           <span class="input-group-text" id="basic-addon1">@</span>
         </div>
-        <input [(ngModel)]="userName" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+        <input [(ngModel)]="userName" (ngModelChange)="clearInvalidData();" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
       </div>
       <div>
         <button (click)="generateTicket();"  type="button" class="btn btn-primary">{{genTicket.length ? 'Change Selection':'Buy Ticket'}}</button>

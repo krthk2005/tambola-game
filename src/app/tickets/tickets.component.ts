@@ -20,6 +20,9 @@ export class TicketsComponent implements OnInit {
 
   ngOnInit() {
   }
+  clearInvalidData(){
+    this.isDuplicateUser = false;
+  }
   generateTicket(){
     this.isDuplicateUser = false;
     if(this.userName){
