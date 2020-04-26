@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Game } from './../interfaces/game';
+import { Game, UserGameStatus } from './../interfaces/game';
 import { Router } from '@angular/router';
+import { TicketService } from '../tickets/tickets.service';
 
 @Component({
   selector: '[app-game]',
@@ -18,8 +19,11 @@ export class GameComponent implements OnInit {
   progressBarInterval:any;
   progressNumber:number = 0;
   timeIntervalNumber:number;
+  userNameForWinHistory;
+  userWinStatus : UserGameStatus = {} as UserGameStatus;
+  isValidUserNameEntered:boolean;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,public ticketService :TicketService) { }
 
   ngOnInit() {
   }
@@ -41,12 +45,6 @@ export class GameComponent implements OnInit {
         this.onUpdateNumber();
         this.startProgressBarIncrement();
       }, this.timeIntervalNumber * 1000);
-
-      // this.progressBarInterval = setInterval(function(){ 
-      //   setInterval(function(){ 
-      //     this.progressNumber=this.progressNumber+10;
-      //   }, 1000);
-      // }, this.timeIntervalNumber * 1000);
       this.isTimerStarted=true;
     }else{
       this.isTimerStarted=false;
@@ -59,6 +57,35 @@ export class GameComponent implements OnInit {
     clearInterval(this.progressBarInterval);
     this.progressBarInterval = setInterval(()=> {this.prgressBarIncreement();}, this.timeIntervalNumber*10);
   }
+  clearPreviousHistory(){
+    this.userWinStatus = {} as UserGameStatus;
+    this.userNameForWinHistory = "";
+    this.isValidUserNameEntered = false;
+  }
+
+  checkWinHistory(){
+    for (let pos = 0; pos < this.ticketService.tickets.length; pos++) {
+      if(this.ticketService.tickets[pos].name.toLocaleLowerCase() == this.userNameForWinHistory.toLocaleLowerCase()){
+        this.isValidUserNameEntered = true;
+        for (let index = 0; index < this.ticketService.tickets[pos].ticket.length; index++) {
+          if(index == 0){
+            let commonNumbers = this.ticketService.tickets[pos].ticket[index].filter(item => this.game.completedNumbers.indexOf(item) > -1);
+            this.userWinStatus.isFirstRowCompleted = (commonNumbers.length > 4) ? true : false;
+          }else if(index == 1){
+            let commonNumbers = this.ticketService.tickets[pos].ticket[index].filter(item => this.game.completedNumbers.indexOf(item) > -1);
+            this.userWinStatus.isSecondRowCompleted = (commonNumbers.length > 4) ? true : false;
+          }else if(index == 2){
+            let commonNumbers = this.ticketService.tickets[pos].ticket[index].filter(item => this.game.completedNumbers.indexOf(item) > -1);
+            this.userWinStatus.isThirdRowCompleted = (commonNumbers.length > 4) ? true : false;
+          }
+        }
+        let userTicketNumbers = [ ...this.ticketService.tickets[pos].ticket[0], ...this.ticketService.tickets[pos].ticket[1], ...this.ticketService.tickets[pos].ticket[2]];
+        this.userWinStatus.isFirstFiveCompleted = userTicketNumbers.filter(item => this.game.completedNumbers.indexOf(item) > -1).length >4 ? true : false;
+        this.userWinStatus.isFullHouse = userTicketNumbers.filter(item => this.game.completedNumbers.indexOf(item) > -1).length >14 ? true : false;
+      }
+    }
+  }
+
   prgressBarIncreement() {
     if(this.progressNumber<100) {
      this.progressNumber++;

@@ -13,3 +13,10 @@ export interface Game {
     completed: boolean,
     updatedTime: number;
 }
+export interface UserGameStatus{
+  isFirstFiveCompleted:boolean;
+  isFirstRowCompleted:boolean;
+  isSecondRowCompleted:boolean;
+  isThirdRowCompleted:boolean;
+  isFullHouse:boolean;
+}
