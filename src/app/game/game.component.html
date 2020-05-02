@@ -8,7 +8,15 @@
   <div id="collapse{{game.id}}" class="collapse" [class.show]="isPlay" attr.aria-labelledby="heading{{game.id}}" data-parent="#accordion">
     <div class="card-body">
       <section class="row game">
-          <div app-completed-numbers [game]="game" class="col-md-6 col-lg-6"></div>
+          <div class="col-md-6 col-lg-6">
+            <div app-completed-numbers [game]="game"></div>
+            <div class="card col text-center" *ngIf="isPlay">
+              <div class="card-body">
+                <h5 class="card-title">Last 5 numbers:</h5>
+                {{game.completedNumbers.slice(-5).reverse().join(', ')}}
+              </div>
+            </div>
+          </div>
           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
             <div class="auto-start-number col-md-12 col-sm-2 col-xs-2">
               <div class="auto-start">
@@ -29,19 +37,13 @@
               <div class="card resutls">
                 <div class="card-body">
                   <h5 class="card-title">Winners:</h5>
-                  <div class="card-group"><span>First Five:</span> <input class="name" type="text" /> </div>
-                  <div class="card-group"><span>1st Row: </span> <input class="name" type="text" /> </div>
-                  <div class="card-group"><span>2nd Row:</span>  <input class="name" type="text" />  </div>
-                  <div class="card-group"><span>3rd Row: </span> <input class="name" type="text" />  </div>
-                  <div class="card-group"><span>Full House:</span> <input class="name" type="text" /> </div>
+                  <div class="card-group alert alert-success" *ngIf="game.fullHouse.name"><span>Full House: <b>{{game.fullHouse.name | uppercase}}</b> </span></div>
+                  <div class="card-group alert alert-info" *ngIf="game.firstRow.name"><span>1st Row: <b>{{game.firstRow.name | uppercase}}</b> </span></div>
+                  <div class="card-group alert alert-info" *ngIf="game.secondRow.name"><span>2nd Row: <b>{{game.secondRow.name | uppercase}}</b> </span></div>
+                  <div class="card-group alert alert-info" *ngIf="game.thirdRow.name"><span>3rd Row:  <b>{{game.thirdRow.name | uppercase}}</b> </span></div>
+                  <div class="card-group alert alert-primary" *ngIf="game.firstFive.name"><span>First Five: <b>{{game.firstFive.name | uppercase}}</b></span></div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="card col text-center" *ngIf="isPlay">
-            <div class="card-body">
-              <h5 class="card-title">Last 5 numbers:</h5>
-              {{game.completedNumbers.slice(-5).reverse().join(', ')}}
             </div>
           </div>
         </section>
@@ -61,19 +63,34 @@
       <div class="modal-body">
         <form>
           <div class="form-group">
-            <label for="recipient-name" class="col-form-label">User Name:</label>
+            <label for="recipient-name" class="col-form-label">User Name/Ticket Number:</label>
             <input type="text" class="form-control" id="recipient-name"  name="name" (ngModelChange)="clearPreviousHistory();" [(ngModel)]="userNameForWinHistory">
           </div>
           <div class="form-group">
             <ul class="list-group" *ngIf="isValidUserNameEntered">
-              <li class="list-group-item" [ngClass]="{'list-group-item-success':userWinStatus.isFirstFiveCompleted, 'list-group-item-danger': !userWinStatus.isFirstFiveCompleted}">First five - {{userWinStatus.isFirstFiveCompleted ? 'Completed':'Not Completed'}}</li>
-              <li class="list-group-item" [ngClass]="{'list-group-item-success':userWinStatus.isFirstRowCompleted, 'list-group-item-danger': !userWinStatus.isFirstRowCompleted}">First Row -  {{userWinStatus.isFirstRowCompleted ? 'Completed':'Not Completed'}}</li>
-              <li class="list-group-item" [ngClass]="{'list-group-item-success':userWinStatus.isSecondRowCompleted, 'list-group-item-danger': !userWinStatus.isSecondRowCompleted}">Second Row -  {{userWinStatus.isSecondRowCompleted ? 'Completed':'Not Completed'}}</li>
-              <li class="list-group-item" [ngClass]="{'list-group-item-success':userWinStatus.isThirdRowCompleted, 'list-group-item-danger': !userWinStatus.isThirdRowCompleted}">Third Row -  {{userWinStatus.isThirdRowCompleted ? 'Completed':'Not Completed'}}</li>
-              <li class="list-group-item" [ngClass]="{'list-group-item-success':userWinStatus.isFullHouse, 'list-group-item-danger': !userWinStatus.isFullHouse}">Full House -  {{userWinStatus.isFullHouse ? 'Completed':'Not Completed'}}</li>
+              <li class="list-group-item" [ngClass]="{'list-group-item-success':userWinStatus.isFirstFiveCompleted, 'list-group-item-danger': !userWinStatus.isFirstFiveCompleted}">
+                First five - {{userWinStatus.isFirstFiveCompleted ? 'Completed':'Not Completed'}}
+                <span *ngIf="userWinStatus.isFirstFiveCompleted && !game.firstFive.name"><button type="button" class="btn btn-link" (click)="game.firstFive.name = completedUserName;saveToHistory();">Add to board</button></span>
+              </li>
+              <li class="list-group-item" [ngClass]="{'list-group-item-success':userWinStatus.isFirstRowCompleted, 'list-group-item-danger': !userWinStatus.isFirstRowCompleted}">
+                First Row -  {{userWinStatus.isFirstRowCompleted ? 'Completed':'Not Completed'}}
+                <span *ngIf="userWinStatus.isFirstRowCompleted && !game.firstRow.name"><button type="button" class="btn btn-link" (click)="game.firstRow.name = completedUserName;saveToHistory();">Add to board</button></span>
+              </li>
+              <li class="list-group-item" [ngClass]="{'list-group-item-success':userWinStatus.isSecondRowCompleted, 'list-group-item-danger': !userWinStatus.isSecondRowCompleted}">
+                Second Row -  {{userWinStatus.isSecondRowCompleted ? 'Completed':'Not Completed'}}
+                <span *ngIf="userWinStatus.isSecondRowCompleted && !game.secondRow.name"><button type="button" class="btn btn-link" (click)="game.secondRow.name = completedUserName;saveToHistory();">Add to board</button></span>
+              </li>
+              <li class="list-group-item" [ngClass]="{'list-group-item-success':userWinStatus.isThirdRowCompleted, 'list-group-item-danger': !userWinStatus.isThirdRowCompleted}">
+                Third Row -  {{userWinStatus.isThirdRowCompleted ? 'Completed':'Not Completed'}}
+                <span *ngIf="userWinStatus.isThirdRowCompleted && !game.thirdRow.name"><button type="button" class="btn btn-link" (click)="game.thirdRow.name = completedUserName;saveToHistory();">Add to board</button></span>
+              </li>
+              <li class="list-group-item" [ngClass]="{'list-group-item-success':userWinStatus.isFullHouse, 'list-group-item-danger': !userWinStatus.isFullHouse}">
+                Full House -  {{userWinStatus.isFullHouse ? 'Completed':'Not Completed'}}
+                <span *ngIf="userWinStatus.isFullHouse && !(this.game.fullHouse.name.indexOf(this.completedUserName) > -1)"><button type="button" class="btn btn-link" (click)="game.fullHouse.name = (game.fullHouse.name.length) ? (game.fullHouse.name +', '+ completedUserName): (completedUserName);saveToHistory();">Add to board</button></span>
+              </li>
             </ul>
             <div *ngIf="!isValidUserNameEntered"  class="alert alert-warning" role="alert">
-              Enter valid user name and click verify to check the status
+              Enter valid <b>USER NAME</b> or <b>TICKET NUMBER</b> and click verify to check the status
             </div>
           </div>
         </form>

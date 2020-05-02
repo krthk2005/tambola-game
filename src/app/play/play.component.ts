@@ -30,6 +30,9 @@ export class PlayComponent implements OnInit {
     this.game.updatedTime = Date.now();
     this.gameService.setGames(null);
   }
+  saveHistory(){
+    this.gameService.setGames(null);
+  }
 
   completeGame() {
     this.game.completed = true;

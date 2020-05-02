@@ -43,7 +43,7 @@
     <div *ngFor="let ticket of ticketService.tickets">
       <div class="header">
         <div>{{ticket.name | titlecase}}</div>
-        <div class="date">{{ticket.date | date:'MMM d, y, h:mm:ss a'}}</div>
+        <div class="date">Ticket No.<span class="number">{{ticket.ticketNumber}}</span></div>
       </div>
       <table class="table table-bordered">
         <tbody>

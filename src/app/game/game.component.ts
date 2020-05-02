@@ -13,6 +13,7 @@ export class GameComponent implements OnInit {
   @Input() game: Game;
   @Input() isPlay:boolean;
   @Output() updateNumber = new EventEmitter();
+  @Output() saveHistory = new EventEmitter();
   @Output() completeGame = new EventEmitter();
   isTimerStarted: boolean;
   timeInterval:any;
@@ -20,6 +21,7 @@ export class GameComponent implements OnInit {
   progressNumber:number = 0;
   timeIntervalNumber:number;
   userNameForWinHistory;
+  completedUserName:string;
   userWinStatus : UserGameStatus = {} as UserGameStatus;
   isValidUserNameEntered:boolean;
 
@@ -60,13 +62,18 @@ export class GameComponent implements OnInit {
   clearPreviousHistory(){
     this.userWinStatus = {} as UserGameStatus;
     this.userNameForWinHistory = "";
+    this.completedUserName = "";
     this.isValidUserNameEntered = false;
+  }
+  saveToHistory(){
+    this.saveHistory.emit();
   }
 
   checkWinHistory(){
     for (let pos = 0; pos < this.ticketService.tickets.length; pos++) {
-      if(this.ticketService.tickets[pos].name.toLocaleLowerCase() == this.userNameForWinHistory.toLocaleLowerCase()){
+      if((this.ticketService.tickets[pos].name.toLocaleLowerCase() == this.userNameForWinHistory.toLocaleLowerCase()) || (this.userNameForWinHistory.toLocaleLowerCase() == this.ticketService.tickets[pos].ticketNumber)){
         this.isValidUserNameEntered = true;
+        this.completedUserName = this.ticketService.tickets[pos].name;
         for (let index = 0; index < this.ticketService.tickets[pos].ticket.length; index++) {
           if(index == 0){
             let commonNumbers = this.ticketService.tickets[pos].ticket[index].filter(item => this.game.completedNumbers.indexOf(item) > -1);
